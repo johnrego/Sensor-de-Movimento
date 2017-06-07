@@ -1,0 +1,3 @@
+AT+CWMODE=1
+AT+CWJAP="SSID","Senha"
+AT+CIFSR

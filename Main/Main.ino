@@ -33,7 +33,7 @@ void setup() {
 }
 
 void loop() {
-  if (Serial.available() > 0){
+  if (Serial.available()){
     byte e = Serial.read();
     switch (e) {
       case 'a':
@@ -70,11 +70,13 @@ void loop() {
       break;
     }
   }
-  if(ligado){
-    if (digitalRead(pinopir)){  //Com movimento
-      Serial.println("Movimento Detectado");
-      grava ();
-      delay (4000);
+  else{
+    if(ligado){
+      if (digitalRead(pinopir)){  //Com movimento
+        Serial.println("Movimento Detectado");
+        grava ();
+        delay (4000);
+      }
     }
   }
 }

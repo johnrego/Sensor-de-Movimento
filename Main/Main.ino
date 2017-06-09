@@ -16,6 +16,7 @@ void leitura();
 void setup() {
   Serial.begin(9600);
   rtc.begin();
+  //rtc.adjust(DateTime(2017, 6, 8, 21, 59, 0));
   pinMode(pinopir, INPUT);
   if (!SD.begin(9)) {
     Serial.println("Falha no Cartao");
@@ -34,31 +35,39 @@ void setup() {
 void loop() {
   if (Serial.available() > 0){
     byte e = Serial.read();
-    if (e == 'l'){
-      ligado = true;
-      Serial.println("Sistema Ligado");
-    }
-    else if (e == 'r'){
-      Serial.println("Lendo pir");
-      leitura ();
-    }
-    else if (e == 'd'){
-      Serial.println("Deletando arquivo");
-      apaga ();
-    }
-    else if (e == 'g'){
-      Serial.println("Testando gravacao");
-      grava ();
-    }
-    else if (e == 'h'){
-      ligado = false;
-      Serial.println("Sistema Desligado");
-    }
-    else{
-      Serial.println("l para ligaro listema");
-      Serial.println("r para ler");
-      Serial.println("d para apagar arquivo");
-      Serial.println("h para desligar o sistema");
+    switch (e) {
+      case 'a':
+        Serial.println("Deletando arquivo");
+        apaga ();
+      break;
+      case 'd':
+        ligado = false;
+        Serial.println("Sistema Desligado");
+      break;
+      case 'l':
+        ligado = true;
+        Serial.println("Sistema Ligado");
+      break;
+      case 'r':
+        Serial.println("Lendo pir");
+        leitura ();
+      break;
+      case 's':
+        Serial.print("Status: ");
+        if (ligado){
+          Serial.println("ligado");
+        }
+        else{
+          Serial.println("desligado");
+        }
+      break;
+      default:
+        Serial.println("a para apagar");
+        Serial.println("d para desligar o sistema");
+        Serial.println("l para ligaro sistema");
+        Serial.println("r para ler");
+        Serial.println("s para status");
+      break;
     }
   }
   if(ligado){
